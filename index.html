@@ -1,0 +1,273 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="toastContainer" class="toast-container"></div>
+<div class="app">
+
+    <!-- Sidebar -->
+    <aside class="sidebar"> 
+        <div class="brand">
+            <div class="brand-icon">S</div>
+            <span>StudentHub</span>
+        </div>
+
+        <p class="menu-title">MAIN MENU</p>
+
+        <a href="#" class="nav-link active">
+            <span>▦</span> Dashboard
+        </a>
+
+        <a href="#students-section" class="nav-link">
+            <span>♙</span> Students
+        </a>
+
+        <div class="sidebar-bottom">
+            <p>Student Management System</p>
+            <small>Version 1.0</small>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <header class="topbar">
+            <div>
+                <h2>Dashboard</h2>
+                <p>Welcome back! Here's your overview.</p>
+            </div>
+            <div class="profile">
+                <div class="avatar">A</div>
+                <div>
+                    <strong>Admin</strong>
+                    <small>Administrator</small>
+                </div>
+            </div>
+        </header>
+
+        <!-- Statistics -->
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-icon blue">♙</div>
+                <p>Total Students</p>
+                <h2 id="totalStudents">0</h2>
+                <small>Registered students</small>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon purple">▣</div>
+                <p>Departments</p>
+                <h2 id="totalDepartments">0</h2>
+                <small>Active departments</small>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon green">✓</div>
+                <p>Average Marks</p>
+                <h2 id="averageMarks">0%</h2>
+                <small>Overall performance</small>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon orange">♙</div>
+                <p>Female Students</p>
+                <h2 id="femaleStudents">0</h2>
+                <small>Registered female students</small>
+            </div>
+
+        </section>
+
+        <!-- Student Records -->
+        <section class="students-section" id="students-section">
+
+            <div class="section-heading">
+                <div>
+                    <h2>Student Records</h2>
+                    <p>Manage and organize student information</p>
+                </div>
+
+                <div class="header-actions">
+
+                    <button class="export-btn" id="exportBtn">
+                        ↓ Export CSV
+                    </button>
+
+                    <button class="primary-btn" id="addStudentBtn">
+                        + Add Student
+                    </button>
+
+                </div>
+            </div>
+
+            <!-- Search and Filters -->
+            <div class="toolbar">
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search by name or roll number..."
+                >
+
+                <select id="departmentFilter">
+                    <option value="">All Departments</option>
+                    <option value="CSE">CSE</option>
+                    <option value="ECE">ECE</option>
+                    <option value="EEE">EEE</option>
+                    <option value="IT">IT</option>
+                    <option value="MECH">MECH</option>
+                    <option value="CIVIL">CIVIL</option>
+                </select>
+
+                <select id="yearFilter">
+                    <option value="">All Years</option>
+                    <option value="1st Year">1st Year</option>
+                    <option value="2nd Year">2nd Year</option>
+                    <option value="3rd Year">3rd Year</option>
+                    <option value="4th Year">4th Year</option>
+                </select>
+                <!-- Reset Filters Button -->
+                <button type="button" class="reset-btn" id="resetFiltersBtn">
+                    ↻ Reset Filters
+                </button>
+            </div>
+
+            <!-- Table -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Roll Number</th>
+                            <th>Student Name</th>
+                            <th>Email</th>
+                            <th>Department</th>
+                            <th>Year</th>
+                            <th>Gender</th>
+                            <th>Marks</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="studentTableBody">
+                    </tbody>
+                </table>
+
+                <div id="emptyMessage" class="empty-message">
+                    No students found. Add your first student!
+                </div>
+            </div>
+
+        </section>
+
+        <footer>
+            © 2026 StudentHub. All rights reserved.
+        </footer>
+
+    </main>
+</div>
+
+<!-- Add/Edit Student Modal -->
+<div class="modal" id="studentModal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <div>
+                <h2 id="modalTitle">Add New Student</h2>
+                <p>Enter the student details below.</p>
+            </div>
+
+            <button class="close-btn" id="closeModalBtn">
+                &times;
+            </button>
+        </div>
+
+        <form id="studentForm">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label for="rollNumber">Roll Number</label>
+                    <input type="text" id="rollNumber"
+                        placeholder="e.g. 101" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="studentName">Student Name</label>
+                    <input type="text" id="studentName"
+                        placeholder="Enter full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email"
+                        placeholder="student@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="department">Department</label>
+                    <select id="department" required>
+                        <option value="">Select Department</option>
+                        <option value="CSE">CSE</option>
+                        <option value="ECE">ECE</option>
+                        <option value="EEE">EEE</option>
+                        <option value="IT">IT</option>
+                        <option value="MECH">MECH</option>
+                        <option value="CIVIL">CIVIL</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="year">Academic Year</label>
+                    <select id="year" required>
+                        <option value="">Select Year</option>
+                        <option value="1st Year">1st Year</option>
+                        <option value="2nd Year">2nd Year</option>
+                        <option value="3rd Year">3rd Year</option>
+                        <option value="4th Year">4th Year</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <select id="gender" required>
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="marks">Marks (out of 100)</label>
+                    <input type="number" id="marks"
+                        placeholder="Enter marks" min="0" max="100"
+                        step="0.01" required>
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="cancel-btn"
+                    id="cancelBtn">Cancel</button>
+
+                <button type="submit" class="primary-btn"
+                    id="saveBtn">Save Student</button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+<!-- Toast Notification -->
+<div id="toast" class="toast"></div>
+</html>
